@@ -6,6 +6,7 @@
 .Nd generate a Message-ID
 .Sh SYNOPSIS
 .Nm
+[-d domain]
 .Sh DESCRIPTION
 .Nm
 generates and prints a unique Message-ID.
@@ -15,6 +16,10 @@ and a fully qualified domain name.
 .Pp
 The fully qualified domain name is arrived at by:
 .Bl -enum
+.It
+Using the
+.Sq Li domain
+parameter provided on the command line.
 .It
 Using
 .Sq Li FQDN\&:

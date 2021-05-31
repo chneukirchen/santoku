@@ -29,17 +29,26 @@ printb36(uint64_t x)
 	fputs(o, stdout);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 	char hostbuf[1024];
 	char *host = 0;
+
+	int c;
+	while ((c = getopt(argc, argv, "d:")) != -1)
+		switch (c) {
+		case 'd': host = optarg; break;
+		default:
+			  fprintf(stderr, "Usage: mgenmid [-d domain]\n");
+			  exit(1);
+		}
 
 	char *f = blaze822_home_file("profile");
 	struct message *config = blaze822(f);
 
 	xpledge("stdio rpath dns", "");
 
-	if (config) // try FQDN: first
+	if (!host && config) // try FQDN:
 		host = blaze822_hdr(config, "fqdn");
 
 	if (!host && gethostname(hostbuf, sizeof hostbuf) == 0) {
