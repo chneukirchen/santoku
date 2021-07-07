@@ -37,7 +37,7 @@ match(char *file, char *hdr, char *s)
 		regmatch_t pmatch = {0};
 		int len, matched;
 		matched = 0;
-		while (*s && regexec(&pattern, s, 1, &pmatch, 0) == 0) {
+		while (s && *s && regexec(&pattern, s, 1, &pmatch, 0) == 0) {
 			s += pmatch.rm_so;
 			if (!(len = pmatch.rm_eo-pmatch.rm_so)) {
 				s += 1;
@@ -52,7 +52,7 @@ match(char *file, char *hdr, char *s)
 			matched++;
 		}
 		return (matched && matches++);
-	} else if (vflag ^ (regexec(&pattern, s, 0, 0, 0) == 0)) {
+	} else if (vflag ^ (s && regexec(&pattern, s, 0, 0, 0) == 0)) {
 		if (qflag)
 			exit(0);
 		matches++;
@@ -183,6 +183,8 @@ magrep(char *file)
 		char *v = blaze822_chdr(msg, header);
 		if (v)
 			(void)match_value(file, header, v);
+		else
+			(void)match(file, header, 0);
 	}
 
 	blaze822_free(msg);

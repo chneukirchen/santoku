@@ -175,6 +175,7 @@ export MAILSEQ=seq
 check_test 'subject' -eq 1 'magrep subject:nice : | wc -l'
 check_test 'ignorecase' -eq 1 'magrep -i subject:NICE : | wc -l'
 check_test 'invert' -eq 2 'magrep -v subject:nice : | wc -l'
+check_test 'invert missing' -eq 1 'magrep -v subject:i : | wc -l'
 check_test 'max matches' -eq 2 'magrep -m 2 from:Piet : | wc -l'
 check_test 'long subject' -eq 1 'magrep subject:aliqua : | wc -l'
 check_test 'decode large rfc2047 header' -eq 1 'magrep -d to:John : | wc -l'
